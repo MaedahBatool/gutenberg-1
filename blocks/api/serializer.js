@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isEmpty, reduce, isObject } from 'lodash';
+import { isEmpty, reduce, isObject, isEqual, pickBy } from 'lodash';
 import { html as beautifyHtml } from 'js-beautify';
 import classnames from 'classnames';
 
@@ -115,7 +115,12 @@ export function serializeBlock( block ) {
 	const blockName = block.name;
 	const blockType = getBlockType( blockName );
 	const saveContent = getSaveContent( blockType, block.attributes );
-	const saveAttributes = getCommentAttributes( block.attributes, parseBlockAttributes( saveContent, blockType.attributes ) );
+	let saveAttributes = getCommentAttributes( block.attributes, parseBlockAttributes( saveContent, blockType.attributes ) );
+
+	// Remove attributes that are the same as the defaults.
+	if ( blockType.defaultAttributes ) {
+		saveAttributes = pickBy( saveAttributes, ( value, key ) => ! isEqual( value, blockType.defaultAttributes[ key ] ) );
+	}
 
 	if ( 'wp:core/more' === blockName ) {
 		return `<!-- more ${ saveAttributes.customText ? `${ saveAttributes.customText } ` : '' }-->${ saveAttributes.noTeaser ? '\n<!--noteaser-->' : '' }`;

@@ -5,7 +5,7 @@
         "attributes": {
             "postsToShow": 5,
             "layout": "list",
-            "displayPostDate": false
+            "displayPostDate": true
         }
     }
 ]
