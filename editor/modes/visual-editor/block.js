@@ -262,7 +262,7 @@ class VisualEditorBlock extends Component {
 			'*[tabindex]',
 			'textarea',
 			'input',
-		].join( ',' );
+		].map( ( selector ) => `.editor-visual-editor ${ selector }` ).join( ',' );
 
 		if ( moveUp || moveDown ) {
 			const selection = window.getSelection();
