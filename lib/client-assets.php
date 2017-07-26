@@ -39,8 +39,8 @@ function gutenberg_url( $path ) {
  * browsers which fail the provided tests. The provided array is a mapping from
  * a condition to verify feature support to its polyfill script handle.
  *
- * @param  array  $tests Features to detect
- * @return string        Conditional polyfill inline script
+ * @param array $tests Features to detect.
+ * @return string Conditional polyfill inline script.
  */
 function gutenberg_get_script_polyfill( $tests ) {
 	global $wp_scripts;
