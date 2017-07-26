@@ -20,6 +20,10 @@ import './assets/stylesheets/main.scss';
 import Layout from './layout';
 import { createReduxStore } from './state';
 
+const defaultSettings = {
+	wideImages: false,
+};
+
 // Configure moment globally
 moment.locale( settings.l10n.locale );
 if ( settings.timezone.string ) {
@@ -71,14 +75,16 @@ function preparePostState( store, post ) {
 /**
  * Initializes and returns an instance of Editor.
  *
- * @param {String} id   Unique identifier for editor instance
- * @param {Object} post API entity for post to edit  (type required)
+ * @param {String} id              Unique identifier for editor instance
+ * @param {Object} post            API entity for post to edit  (type required)
+ * @param {Object} editorSettings  Editor settings object
  */
-export function createEditorInstance( id, post ) {
+export function createEditorInstance( id, post, editorSettings = defaultSettings ) {
 	const store = createReduxStore();
 
 	store.dispatch( {
-		type: 'LOAD_USER_DATA',
+		type: 'SETUP_EDITOR',
+		settings: editorSettings,
 	} );
 
 	preparePostState( store, post );
@@ -86,7 +92,7 @@ export function createEditorInstance( id, post ) {
 	render(
 		<ReduxProvider store={ store }>
 			<SlotFillProvider>
-				<Layout />
+				<Layout settings={ settings } />
 			</SlotFillProvider>
 		</ReduxProvider>,
 		document.getElementById( id )

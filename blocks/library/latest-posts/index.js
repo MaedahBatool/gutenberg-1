@@ -115,7 +115,7 @@ registerBlockType( 'core/latest-posts', {
 				latestPosts.splice( this.props.attributes.postsToShow, postsDifference );
 			}
 
-			const { focus } = this.props;
+			const { focus, settings } = this.props;
 			const { displayPostDate, align, layout } = this.props.attributes;
 			const layoutControls = [
 				{
@@ -140,7 +140,7 @@ registerBlockType( 'core/latest-posts', {
 							onChange={ ( nextAlign ) => {
 								setAttributes( { align: nextAlign } );
 							} }
-							controls={ [ 'left', 'center', 'right', 'wide', 'full' ] }
+							controls={ [ 'left', 'center', 'right' ].concat( settings.wideImages ? [ 'wide', 'full' ] : [] ) }
 						/>
 						<Toolbar controls={ layoutControls } />
 					</BlockControls>

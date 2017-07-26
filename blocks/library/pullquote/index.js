@@ -35,7 +35,7 @@ registerBlockType( 'core/pullquote', {
 		}
 	},
 
-	edit( { attributes, setAttributes, focus, setFocus, className } ) {
+	edit( { attributes, setAttributes, focus, setFocus, className, settings } ) {
 		const { value, citation, align } = attributes;
 		const updateAlignment = ( nextAlign ) => setAttributes( { align: nextAlign } );
 
@@ -45,7 +45,7 @@ registerBlockType( 'core/pullquote', {
 					<BlockAlignmentToolbar
 						value={ align }
 						onChange={ updateAlignment }
-						controls={ [ 'left', 'center', 'right', 'wide', 'full' ] }
+						controls={ [ 'left', 'center', 'right' ].concat( settings.wideImages ? [ 'wide', 'full' ] : [] ) }
 					/>
 				</BlockControls>
 			),
