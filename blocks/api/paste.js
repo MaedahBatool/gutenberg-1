@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { nodeListToReact } from 'dom-react';
-import { find, get } from 'lodash';
+import { find, get, flowRight as compose } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -16,6 +16,8 @@ import { createBlock } from './factory';
 import { getBlockTypes, getUnknownTypeHandler } from './registration';
 import { parseBlockAttributes } from './parser';
 import gDocs from './paste/google-docs';
+import stripAttributes from './paste/strip-attributes';
+import logNodes from './paste/log-nodes';
 
 /**
  * Normalises array nodes of any node type to an array of block level nodes.
@@ -77,12 +79,9 @@ export function normaliseToBlockLevelNodes( nodes ) {
 }
 
 export default function( nodes ) {
-	let tehNodes = nodes;
-	if ( gDocs.test( nodes ) ) {
-		tehNodes = gDocs.run( nodes );
-	}
+	const prepare = compose( [ normaliseToBlockLevelNodes, gDocs, logNodes, stripAttributes ] );
 
-	return normaliseToBlockLevelNodes( tehNodes ).map( ( node ) => {
+	return prepare( nodes ).map( ( node ) => {
 		const block = getBlockTypes().reduce( ( acc, blockType ) => {
 			if ( acc ) {
 				return acc;
