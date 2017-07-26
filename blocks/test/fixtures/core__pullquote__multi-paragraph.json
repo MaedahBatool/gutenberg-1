@@ -6,7 +6,13 @@
             "value": [
                 {
                     "type": "p",
-                    "children": "Paragraph one"
+                    "children": [
+                        "Paragraph ",
+                        {
+                            "type": "strong",
+                            "children": "one"
+                        }
+                    ]
                 },
                 {
                     "type": "p",
